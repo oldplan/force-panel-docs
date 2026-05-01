@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Force Join Panel · User Guide</title>
+<style>
+  :root{
+    --bg:#0b0e14; --bg-2:#11151d; --card:#161b25; --line:#222936;
+    --text:#e7ecf3; --muted:#9aa3b2; --link:#7aa2ff; --accent:#9d7bff;
+    --code:#0e1320; --ok:#3ddc97; --warn:#ffb86b;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  a{color:var(--link);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    background:var(--code);padding:.1em .35em;border-radius:4px;font-size:.92em;color:#eaeaff}
+  pre{background:var(--code);padding:14px 16px;border-radius:8px;overflow:auto}
+  hr{border:0;border-top:1px solid var(--line);margin:36px 0}
+  h1,h2,h3,h4{line-height:1.25;margin:1.6em 0 .6em}
+  h1{font-size:2.2rem;margin-top:0;background:linear-gradient(90deg,#9d7bff,#7aa2ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  h2{font-size:1.55rem;border-bottom:1px solid var(--line);padding-bottom:.3em}
+  h3{font-size:1.18rem;color:#cdd5e3}
+  blockquote{margin:1em 0;padding:.6em 1em;background:var(--bg-2);border-left:4px solid var(--accent);border-radius:6px;color:#c9d1de}
+  table{border-collapse:collapse;width:100%;margin:1em 0;background:var(--card);border-radius:8px;overflow:hidden}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#1a2030;font-weight:600;color:#cdd5e3}
+  tr:last-child td{border-bottom:0}
+  img{max-width:100%;border-radius:10px;border:1px solid var(--line);display:block;margin:14px auto;
+    box-shadow:0 8px 32px rgba(0,0,0,.45)}
+  .layout{display:grid;grid-template-columns:260px 1fr;max-width:1200px;margin:0 auto;gap:28px;padding:32px 24px}
+  nav.toc{position:sticky;top:24px;align-self:start;background:var(--bg-2);
+    border:1px solid var(--line);border-radius:12px;padding:18px 16px;font-size:.92rem;max-height:calc(100vh - 48px);overflow:auto}
+  nav.toc h4{margin:0 0 10px;color:#cdd5e3;font-size:.85rem;text-transform:uppercase;letter-spacing:.08em}
+  nav.toc ol{margin:0;padding-left:1.2em;color:var(--muted)}
+  nav.toc li{margin:.35em 0}
+  nav.toc a{color:#cdd5e3}
+  main{min-width:0}
+  .hero{background:linear-gradient(135deg,#1a1f2e,#13182a);padding:24px 28px;border-radius:16px;border:1px solid var(--line);margin-bottom:18px}
+  .hero p{margin:.4em 0;color:#cdd5e3}
+  .pill{display:inline-block;padding:.15em .55em;border-radius:999px;background:#1f2740;color:#cdd5e3;font-size:.78em;border:1px solid #2a334a}
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:1em 0}
+  .grid .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .grid .step h4{margin:.1em 0 .4em;color:#fff;font-size:1rem}
+  .grid .step p{margin:.3em 0;color:#c9d1de;font-size:.95em}
+  .num{display:inline-block;width:1.6em;height:1.6em;line-height:1.6em;text-align:center;border-radius:50%;
+    background:linear-gradient(135deg,#9d7bff,#7aa2ff);color:#fff;font-weight:700;margin-right:.4em}
+  .pill-ok{background:rgba(61,220,151,.15);color:var(--ok);border-color:rgba(61,220,151,.3)}
+  .pill-warn{background:rgba(255,184,107,.15);color:var(--warn);border-color:rgba(255,184,107,.3)}
+  footer{color:var(--muted);font-size:.9em;text-align:center;padding:32px 0}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}nav.toc{position:static;max-height:none}}
+</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc">
+    <h4>📖 Contents</h4>
+    <ol>
+      <li><a href="#quick-start">Quick start</a></li>
+      <li><a href="#signup">Create an account</a></li>
+      <li><a href="#signin">Sign in</a></li>
+      <li><a href="#add-bot">Add your Telegram bot</a></li>
+      <li><a href="#settings">Bot Settings</a></li>
+      <li><a href="#channels">Force-join Channels</a></li>
+      <li><a href="#messages">Message customisation</a></li>
+      <li><a href="#groups-stats-history">Groups · Stats · History</a></li>
+      <li><a href="#commands">In-Telegram commands</a></li>
+      <li><a href="#tips">Tips &amp; troubleshooting</a></li>
+      <li><a href="#support">Support</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <h1>Force Join Panel — User Guide</h1>
+      <p>Connect your Telegram bot, decide which channels users must subscribe to before they can chat in your group, and run powerful moderation commands directly from Telegram.</p>
+      <p>Panel: <a href="http://176.100.37.91:30244/"><strong>http://176.100.37.91:30244/</strong></a> &nbsp;
+         <span class="pill pill-ok">Click any link to jump straight into the panel</span></p>
+    </div>
+
+    <h2 id="quick-start">Quick start (5 steps)</h2>
+    <div class="grid">
+      <div class="step"><h4><span class="num">1</span>Sign up</h4>
+        <p><a href="http://176.100.37.91:30244/register">Create an account</a> with a Username, User ID and Password.</p></div>
+      <div class="step"><h4><span class="num">2</span>Sign in</h4>
+        <p><a href="http://176.100.37.91:30244/login">Log in</a> to reach your Dashboard.</p></div>
+      <div class="step"><h4><span class="num">3</span>Add a bot</h4>
+        <p>Get a token from <a href="https://t.me/BotFather">@BotFather</a> and paste it on the <a href="http://176.100.37.91:30244/dashboard">Dashboard</a>.</p></div>
+      <div class="step"><h4><span class="num">4</span>Bind a group</h4>
+        <p>Add the bot to your group as <strong>admin</strong>, then send <code>/setgroup</code> in the group — or paste the chat ID in <strong>Settings</strong>.</p></div>
+      <div class="step"><h4><span class="num">5</span>Add channels</h4>
+        <p>Open the bot's <strong>Channels</strong> page and list every channel users must subscribe to. Done!</p></div>
+    </div>
+
+    <hr>
+
+    <h2 id="signup">1. Create an account</h2>
+    <p>Open <a href="http://176.100.37.91:30244/register"><strong>http://176.100.37.91:30244/register</strong></a>.</p>
+    <img src="screenshots/00_signup.png" alt="Sign up page">
+    <table>
+      <tr><th>Field</th><th>What to put</th></tr>
+      <tr><td><strong>Username</strong></td><td>Your display name.</td></tr>
+      <tr><td><strong>User ID (public login id)</strong></td><td>A unique numeric or text id you'll use to log in. Pick something memorable — it cannot be changed later.</td></tr>
+      <tr><td><strong>Password</strong></td><td>Minimum <strong>6 characters</strong>.</td></tr>
+    </table>
+    <p>Click <strong>Create account</strong>. Already have one? Use <a href="http://176.100.37.91:30244/login">Sign in</a> instead.</p>
+
+    <hr>
+
+    <h2 id="signin">2. Sign in</h2>
+    <p>Login page: <a href="http://176.100.37.91:30244/login"><strong>http://176.100.37.91:30244/login</strong></a></p>
+    <img src="screenshots/00_signin.png" alt="Sign in page">
+    <p>Enter your <strong>User ID or Username</strong> and your <strong>Password</strong>, then click <strong>Login</strong>. You'll be redirected to your <a href="http://176.100.37.91:30244/dashboard">Dashboard</a>.</p>
+    <p>To log out, click <strong>Logout</strong> on the top-right of every page.</p>
+
+    <hr>
+
+    <h2 id="add-bot">3. Add your Telegram bot</h2>
+    <p>Once signed in you land on the <a href="http://176.100.37.91:30244/dashboard">Dashboard</a>.</p>
+    <img src="screenshots/01_dashboard.png" alt="Dashboard with Add a bot">
+
+    <h3>3a. Get a bot token</h3>
+    <ol>
+      <li>Open Telegram and message <a href="https://t.me/BotFather">@BotFather</a>.</li>
+      <li>Send <code>/newbot</code> and follow the prompts (pick a <strong>name</strong> and a <strong>@username</strong> ending in <code>bot</code>).</li>
+      <li>BotFather replies with an <strong>HTTP API token</strong> like <code>123456:ABC-DEF…</code>.</li>
+    </ol>
+    <blockquote>Keep this token secret — anyone with it can control your bot.</blockquote>
+
+    <h3>3b. Paste the token into the panel</h3>
+    <p>On the <a href="http://176.100.37.91:30244/dashboard">Dashboard</a>, paste the token into <strong>Add a bot</strong> and click <strong>Add bot</strong>. The panel validates the token via Telegram's <code>getMe</code> and starts the bot <strong>immediately</strong>.</p>
+
+    <table>
+      <tr><th>Column</th><th>Meaning</th></tr>
+      <tr><td><strong>Bot</strong></td><td>The bot's <code>@username</code> and short label.</td></tr>
+      <tr><td><strong>Token</strong></td><td>A masked preview (first/last chars only).</td></tr>
+      <tr><td><strong>Status</strong></td><td><span class="pill pill-ok">running</span> — the bot is online and polling Telegram.</td></tr>
+      <tr><td><strong>Created</strong></td><td>When you added the bot.</td></tr>
+      <tr><td><strong>Actions</strong></td><td><a href="#settings">Settings</a> · <a href="#channels">Channels</a> · <a href="#messages">Messages</a> · <strong>Disable</strong> · <strong>Delete</strong></td></tr>
+    </table>
+
+    <blockquote><strong>Disable</strong> vs <strong>Delete</strong>: <em>Disable</em> pauses polling — you can re-enable later. <em>Delete</em> removes the bot from your account and moves it to the <a href="http://176.100.37.91:30244/history">History</a> page.</blockquote>
+
+    <hr>
+
+    <h2 id="settings">4. Bot Settings</h2>
+    <p>Click <strong>Settings</strong> next to your bot on the <a href="http://176.100.37.91:30244/dashboard">Dashboard</a>.</p>
+    <img src="screenshots/07_bot_settings.png" alt="Bot Settings">
+
+    <h3>Group binding</h3>
+    <p>Each bot moderates <strong>one</strong> Telegram group at a time:</p>
+    <ol>
+      <li>Add the bot to the group <strong>as administrator</strong>, with at least:
+        <ul>
+          <li><strong>Restrict members</strong> (so it can mute / kick / ban)</li>
+          <li><strong>Delete messages</strong> (so it can clean spam)</li>
+        </ul>
+      </li>
+      <li>Either:
+        <ul>
+          <li>Send <code>/setgroup</code> inside the group <em>from the chat owner's account</em>, <strong>or</strong></li>
+          <li>Open the bot's <strong>Settings</strong> page and paste the <strong>Group ID</strong> (typically starts with <code>-100…</code>) and an optional <strong>Group title</strong>, then click <strong>Save</strong>.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>Action — what to do when a user fails the join check</h3>
+    <img src="screenshots/07b_action_options.png" alt="Action dropdown options">
+    <table>
+      <tr><th>Action</th><th>Effect</th></tr>
+      <tr><td><strong>Permanent mute (until verified)</strong></td><td>Default. User stays muted until they subscribe to every channel and tap the <strong>Verify</strong> button.</td></tr>
+      <tr><td><strong>Temporary mute</strong></td><td>User is muted for the <strong>duration in minutes</strong> set in <em>Temporary mute duration</em>.</td></tr>
+      <tr><td><strong>Kick</strong></td><td>User is removed from the group (can rejoin).</td></tr>
+      <tr><td><strong>Ban</strong></td><td>User is permanently banned.</td></tr>
+    </table>
+    <p>Set <strong>Temporary mute duration</strong> in minutes (e.g. <code>10</code>) when using <em>Temporary mute</em>.</p>
+
+    <h3>Behavior</h3>
+    <ul>
+      <li><strong>Guard every message</strong> — re-checks each user's subscription status on every message they send. Disable on huge groups where this would create rate-limit pressure.</li>
+      <li><strong>Delete user's messages while muted</strong> — automatically removes anything a muted user posts.</li>
+      <li><strong>Auto-delete prompt after N seconds</strong> — the join prompt the bot posts disappears after this many seconds (<code>0</code> = keep forever).</li>
+    </ul>
+    <p>Click <strong>Save</strong>. Changes apply instantly — no restart needed.</p>
+
+    <hr>
+
+    <h2 id="channels">5. Force-join Channels</h2>
+    <p>Click <strong>Channels</strong> next to your bot on the <a href="http://176.100.37.91:30244/dashboard">Dashboard</a>.</p>
+    <img src="screenshots/08_channels.png" alt="Channels page">
+    <p>This is where you list the channels your members <strong>must subscribe to</strong> before they can chat.</p>
+
+    <h3>Add a channel</h3>
+    <ol>
+      <li><strong>Add the bot as an admin</strong> of the channel — or at minimum as a member with permission to read the member list. Without this, Telegram will not tell the bot whether a user is subscribed.</li>
+      <li>Fill in the form:
+        <table>
+          <tr><th>Field</th><th>What to put</th><th>Example</th></tr>
+          <tr><td><strong>Chat ID</strong></td><td>The channel's numeric chat id. Public channels can also use <code>@username</code>. Numeric ids start with <code>-100…</code>.</td><td><code>-1001234567890</code></td></tr>
+          <tr><td><strong>Title</strong></td><td>Friendly name shown in the join prompt.</td><td>My News Channel</td></tr>
+          <tr><td><strong>Invite link</strong></td><td>The <code>https://t.me/...</code> link users tap to join.</td><td>https://t.me/MyNewsChannel</td></tr>
+          <tr><td><strong>Button label</strong></td><td>Text on the inline button.</td><td>Join News</td></tr>
+        </table>
+      </li>
+      <li>Click <strong>Add channel</strong>.</li>
+    </ol>
+    <p>The channel appears in the <strong>Configured channels</strong> table. Repeat for as many channels as you want — the bot will require subscription to <strong>all</strong> of them.</p>
+
+    <blockquote><strong>How do I find a channel's chat ID?</strong> Forward any message from the channel to a bot like <a href="https://t.me/JsonDumpBot">@JsonDumpBot</a> or <a href="https://t.me/userinfobot">@userinfobot</a> — the <code>chat.id</code> field is what you need.</blockquote>
+
+    <hr>
+
+    <h2 id="messages">6. Message customisation</h2>
+    <p>Click <strong>Messages</strong> next to your bot.</p>
+    <img src="screenshots/09_messages.png" alt="Message customisation">
+    <p>All four messages support <strong>HTML formatting</strong> (e.g. <code>&lt;b&gt;bold&lt;/b&gt;</code>, <code>&lt;i&gt;italic&lt;/i&gt;</code>, <code>&lt;a href="..."&gt;link&lt;/a&gt;</code>) and the placeholders below.</p>
+
+    <h3>Available placeholders</h3>
+    <table>
+      <tr><th>Placeholder</th><th>Replaced with</th></tr>
+      <tr><td><code>{NAME}</code></td><td>First name</td></tr>
+      <tr><td><code>{SURNAME}</code></td><td>Last name</td></tr>
+      <tr><td><code>{NAMESURNAME}</code></td><td>First + last name</td></tr>
+      <tr><td><code>{USERNAME}</code></td><td><code>@username</code> (or empty)</td></tr>
+      <tr><td><code>{MENTION}</code></td><td>A clickable mention of the user</td></tr>
+      <tr><td><code>{ID}</code></td><td>Numeric Telegram user id</td></tr>
+      <tr><td><code>{LANG}</code></td><td>Telegram language code (e.g. <code>en</code>, <code>it</code>)</td></tr>
+      <tr><td><code>{DATE}</code> · <code>{TIME}</code> · <code>{WEEKDAY}</code></td><td>Current date / time / weekday</td></tr>
+      <tr><td><code>{GROUPNAME}</code></td><td>The bound group's title</td></tr>
+      <tr><td><code>{remaining}</code> / <code>{total}</code></td><td>Channels still to join / total channels</td></tr>
+    </table>
+
+    <h3>The four messages</h3>
+    <table>
+      <tr><th>Message</th><th>When it shows</th><th>Default</th></tr>
+      <tr><td><strong>Verify button text</strong></td><td>Caption of the inline button users tap after subscribing.</td><td><code>✅ I Subscribed</code></td></tr>
+      <tr><td><strong>Join prompt</strong></td><td>Posted in the group when an unverified user tries to chat.</td><td><code>{MENTION}, to be accepted in the group, please subscribe to our channel(s). ☑️ Channels left: {remaining}/{total}</code></td></tr>
+      <tr><td><strong>Welcome message</strong></td><td>Sent after a user successfully verifies.</td><td><code>✅ &lt;b&gt;Verification Complete!&lt;/b&gt; Welcome, {NAME}! 🎉 You can now chat freely.</code></td></tr>
+      <tr><td><strong>Warn message</strong></td><td>Reserved warning the bot can send before muting.</td><td><code>⚠️ {NAME}, this is your warning! Subscribe to all channels or you will be muted.</code></td></tr>
+    </table>
+    <p>Click <strong>Save</strong> when done.</p>
+
+    <hr>
+
+    <h2 id="groups-stats-history">7. Groups, Stats &amp; History</h2>
+
+    <h3>Groups — <a href="http://176.100.37.91:30244/groups">/groups</a></h3>
+    <img src="screenshots/02_groups.png" alt="Groups page">
+    <p>Lists every group your bot has seen, grouped by bot. Each row shows the group title and <code>chat_id</code>, plus today's <strong>▲ joins</strong> and <strong>▼ leaves</strong>. Use this to confirm the bot is correctly bound and reading group activity.</p>
+
+    <h3>Stats — <a href="http://176.100.37.91:30244/stats">/stats</a></h3>
+    <img src="screenshots/03_stats.png" alt="Stats page">
+    <p>Account-wide totals plus a per-bot breakdown.</p>
+    <table>
+      <tr><th>Metric</th><th>Meaning</th></tr>
+      <tr><td><strong>Bots</strong></td><td>Total bots registered to your account.</td></tr>
+      <tr><td><strong>Running</strong></td><td>Bots currently polling Telegram.</td></tr>
+      <tr><td><strong>Verifications</strong></td><td>Users who completed the subscribe-and-tap flow.</td></tr>
+      <tr><td><strong>Mutes / Kicks / Bans</strong></td><td>Moderation actions performed by your bots.</td></tr>
+    </table>
+
+    <h3>History — <a href="http://176.100.37.91:30244/history">/history</a></h3>
+    <img src="screenshots/04_history.png" alt="History page">
+    <p>A log of bots that were removed — either by you (via <em>Delete</em>) or because their token was revoked. Columns: <strong>Bot</strong>, <strong>Token</strong> (masked), <strong>Reason</strong>, <strong>Removed at</strong>. If a bot disappears unexpectedly, this page tells you why.</p>
+
+    <hr>
+
+    <h2 id="commands">8. In-Telegram commands</h2>
+    <p>The same list lives in the panel: <a href="http://176.100.37.91:30244/guide"><strong>http://176.100.37.91:30244/guide</strong></a></p>
+    <img src="screenshots/05_guide_top.png" alt="Guide top">
+    <img src="screenshots/06_guide_bottom.png" alt="Guide bottom">
+    <blockquote>Every command accepts either a <strong>reply to a user</strong> <em>or</em> a <code>user_id</code> argument. Durations: <code>30s</code>, <code>10m</code>, <code>1h</code>, <code>2d</code>.</blockquote>
+
+    <h3>Moderation</h3>
+    <table>
+      <tr><th>Command</th><th>What it does</th><th>Example</th></tr>
+      <tr><td><code>/nap</code></td><td>Temporary mute.</td><td><code>/nap 10m</code> (reply to user)</td></tr>
+      <tr><td><code>/wake</code></td><td>Unmute.</td><td><code>/wake</code> (reply to user)</td></tr>
+      <tr><td><code>/out</code></td><td>Kick (user can rejoin).</td><td><code>/out</code></td></tr>
+      <tr><td><code>/kill</code></td><td>Ban (permanent).</td><td><code>/kill</code></td></tr>
+      <tr><td><code>/alive</code></td><td>Unban.</td><td><code>/alive 123456789</code></td></tr>
+    </table>
+
+    <h3>Messages</h3>
+    <table>
+      <tr><th>Command</th><th>What it does</th></tr>
+      <tr><td><code>/clean</code></td><td>Delete the message you reply to.</td></tr>
+      <tr><td><code>/wipe</code> · <code>/wipe N</code></td><td>Purge the last <code>N</code> messages.</td></tr>
+    </table>
+
+    <h3>Info</h3>
+    <table>
+      <tr><th>Command</th><th>What it does</th></tr>
+      <tr><td><code>/?</code> · <code>/who</code></td><td>Show a user info card (name, username, id, language…).</td></tr>
+      <tr><td><code>/id</code></td><td>Reply with just the user's numeric id.</td></tr>
+    </table>
+
+    <h3>Stats · Admin · Help</h3>
+    <table>
+      <tr><th>Command</th><th>What it does</th></tr>
+      <tr><td><code>/gc</code></td><td>Today's join / leave count for the current group.</td></tr>
+      <tr><td><code>/admins</code></td><td>Show owner, admins, and sub-admins.</td></tr>
+      <tr><td><code>/setgroup</code></td><td>Bind the current group to the bot. Sent by the chat owner.</td></tr>
+      <tr><td><code>/start</code></td><td>Welcome screen + quick guide.</td></tr>
+      <tr><td><code>/cmd</code></td><td>Full command list inside Telegram.</td></tr>
+    </table>
+
+    <hr>
+
+    <h2 id="tips">9. Tips &amp; troubleshooting</h2>
+    <ul>
+      <li><span class="pill pill-warn">Required</span> The bot must be admin in the group with both <strong>Restrict members</strong> and <strong>Delete messages</strong> permissions. Without these, mute/kick/ban and message-cleaning silently fail.</li>
+      <li>For <code>/gc</code> to record joins/leaves accurately, the bot needs permission to see chat-member updates — the panel already requests this automatically.</li>
+      <li>You can <strong>Disable</strong> a bot from the <a href="http://176.100.37.91:30244/dashboard">Dashboard</a> at any time — its polling stops immediately. Click <strong>Enable</strong> to resume.</li>
+      <li><strong>Channel verification doesn't work?</strong> Confirm the bot is added to that channel as an admin. If the bot isn't in the channel, Telegram won't tell it who is subscribed.</li>
+      <li><strong>Token revoked?</strong> If you regenerate the token in @BotFather, the old one stops working — the panel will move the bot to <a href="http://176.100.37.91:30244/history">History</a>. Add it again with the new token.</li>
+      <li><strong>Forgot your User ID?</strong> Sign in with either your <strong>Username</strong> or your <strong>User ID</strong> on the <a href="http://176.100.37.91:30244/login">login page</a>.</li>
+    </ul>
+
+    <hr>
+
+    <h2 id="support">10. Support</h2>
+    <p>Questions or feature requests? Hop into the support channel: <a href="https://t.me/SilentPromo"><strong>@SilentPromo on Telegram</strong></a> (also linked from the paper-plane icon in the top right of the panel).</p>
+
+    <footer>
+      <p>Force Join Panel — User Guide. Last updated 2026-05-01.</p>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
